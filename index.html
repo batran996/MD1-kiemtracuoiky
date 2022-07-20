@@ -16,12 +16,18 @@
     <tbody id="veBang"></tbody>
 </table>
 <h3>tên bài hát</h3>
-<input type="text"> <br>
+<input id="nhapTen" type="text"> <br>
 <h4>lyrics</h4>
-<textarea name="" id="" cols="30" rows="10"></textarea> <select id="theloai" onchange="selec()"></select>
+<textarea id="nhapLoi" cols="30" rows="10"></textarea> <select id="theloai" onchange="select()"></select> <br>
+<button onclick="createSong()"> create</button>
 
-
-
+<table border="1" style="text-align: center">
+    <th>ID</th>
+    <th>NAME</th>
+    <th>LYRICS</th>
+    <th>THỂ LOẠI</th>
+    <tbody id="veBang2"></tbody>
+</table>
 <script>
     class TheLoaiNhac {
         constructor(id, name) {
@@ -55,7 +61,7 @@
 
     danhSachNhac.push(nhac1, nhac2, nhac3, nhac4, nhac5);
 
-
+let valueSelect;
     function veDanhSachNhac() {
 
         let drawTable = '';
@@ -73,12 +79,12 @@
         let baiHat = "";
         for (let i = 0; i < danhSachNhac.length; i++) {
             let tenNhac = danhSachNhac[i].name;
-            baiHat += `<option tenNhac="${tenNhac}">${danhSachNhac[i].name}</option>`
+            baiHat += `<option value="${tenNhac}">${danhSachNhac[i].name}</option>`
         }
         document.getElementById("theloai").innerHTML = baiHat;
-    }
+    } veDanhSachNhac();
 
-    veDanhSachNhac();
+
 
     function themTheLoaiNhac() {
         let checkOk = true;
@@ -135,12 +141,17 @@
         }
         veDanhSachNhac();
     }
-
+    /////////////bai so 2////////////////////////////////
     class Song {
-        constructor(id, name, lyrics) {
+        id;
+        name;
+        lyrics;
+        category;
+        constructor(id, name, lyrics, category) {
             this.id = id;
             this.name = name;
             this.lyrics = lyrics;
+            this.category = category;
         }
 
         setId(id) {
@@ -168,9 +179,42 @@
         }
     }
 
-    function selec() {
-        let songName = document.getElementById("")
+    let danhSachNhac2 = [];
+
+    function select() {
+        valueSelect = document.getElementById('theloai').value;
+        console.log('value ===>', valueSelect)
     }
+
+    function createSong() {
+        let nameSong = document.getElementById('nhapTen').value;
+        let lyrics = document.getElementById('nhapLoi').value;
+        let idSong =0;
+        if(danhSachNhac2.length==0){
+            idSong =1;
+        } else {
+            idSong = danhSachNhac2[danhSachNhac2.length-1].id + 1;
+        }
+        let newSong = new Song(idSong,nameSong,lyrics,valueSelect)
+        danhSachNhac2.push(newSong)
+        console.log('danh sach nhac 2 === ', danhSachNhac2)
+    }
+    function veDanhSachNhac2() {
+
+        let drawTable2 = '';
+        let class_tr2 = '';
+        for (let i = 0; i < danhSachNhac2.length; i++) {
+            drawTable2 += `<tr class="${class_tr2}">
+                      <td>${danhSachNhac2[i].idSong}</td>
+                      <td>${danhSachNhac2[i].nameSong}</td>
+                      <td>${danhSachNhac2[i].lyrics}</td>
+                      <td>${danhSachNhac2[i].valueSelect}</td>
+                      </tr>`
+        } document.getElementById('veBang2').innerHTML = drawTable2;
+
+    } veDanhSachNhac2();
+
+
 
 </script>
 </body>
