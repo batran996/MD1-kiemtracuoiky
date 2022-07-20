@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1" style="text-align: center">
+    <input id="nhacMoi" type="text">
+    <button onclick="themTheLoaiNhac()">THÊM NHẠC</button>
+    <p id="validate"></p>
+    <th>ID</th>
+    <th>NAME</th>
+    <th>EDIT</th>
+    <th>DELETE</th>
+    <tbody id="veBang"></tbody>
+</table>
+<h3>tên bài hát</h3>
+<input type="text"> <br>
+<h4>lyrics</h4>
+<textarea name="" id="" cols="30" rows="10"></textarea> <select id="theloai" onchange="selec()"></select>
+
+
+
+<script>
+    class TheLoaiNhac {
+        constructor(id, name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        getId() {
+            return this.id;
+        }
+
+        setId(id) {
+            this.id = id;
+        }
+
+        getName() {
+            return this.name;
+        }
+
+        setName(name) {
+            this.name = name;
+        }
+    }
+
+    let danhSachNhac = [];
+    let nhac1 = new TheLoaiNhac(1, 'nhạc đỏ')
+    let nhac2 = new TheLoaiNhac(2, 'nhạc vàng')
+    let nhac3 = new TheLoaiNhac(3, 'nhạc xanh')
+    let nhac4 = new TheLoaiNhac(4, 'nhạc tím')
+    let nhac5 = new TheLoaiNhac(5, 'nhạc đen')
+
+    danhSachNhac.push(nhac1, nhac2, nhac3, nhac4, nhac5);
+
+
+    function veDanhSachNhac() {
+
+        let drawTable = '';
+        let class_tr = '';
+        for (let i = 0; i < danhSachNhac.length; i++) {
+            drawTable += `<tr class="${class_tr}">
+                      <td>${danhSachNhac[i].id = i + 1}</td>
+                      <td>${danhSachNhac[i].name}</td>
+                      <td><button  onclick="chinhSuaTheLoai(${danhSachNhac[i].id})">EDIT</button></td>
+                      <td><button onclick="deleteNhac(${danhSachNhac[i].id})">DELETE</button></td>
+
+</tr>`
+        }
+        document.getElementById('veBang').innerHTML = drawTable;
+        let baiHat = "";
+        for (let i = 0; i < danhSachNhac.length; i++) {
+            let tenNhac = danhSachNhac[i].name;
+            baiHat += `<option tenNhac="${tenNhac}">${danhSachNhac[i].name}</option>`
+        }
+        document.getElementById("theloai").innerHTML = baiHat;
+    }
+
+    veDanhSachNhac();
+
+    function themTheLoaiNhac() {
+        let checkOk = true;
+        let nhacMoi = document.getElementById('nhacMoi').value
+        if (nhacMoi.trim() === '') {
+            document.getElementById('validate').innerHTML = "<span style=\"color:red\">vui lòng nhập tên chính xác</span>"
+        } else {
+            for (let j = 0; j < danhSachNhac.length; j++) {
+                if (nhacMoi.toLowerCase() === danhSachNhac[j].name.toLowerCase()) {
+                    checkOk = false;
+                    document.getElementById('validate').innerHTML = "<span style=\"color:red\">đã có rồi vui long nhập thể loại khác</span>"
+                }
+            }
+            if (checkOk) {
+                danhSachNhac.push(new TheLoaiNhac(danhSachNhac.length + 1, nhacMoi));
+                document.getElementById('validate').innerHTML = "<span style=\"color:deepskyblue\"> Đã thêm thành công</span>"
+            }
+        }
+        veDanhSachNhac();
+    }
+
+    function chinhSuaTheLoai(id) {
+        console.log('id ====== ', id)
+        let check = false;
+        let suaNhac = prompt('Enter the name to edit', danhSachNhac[id - 1].name);
+        if (suaNhac.trim() === "") {
+            document.getElementById("validate").innerHTML = "<span style=\"color:red\">vui lòng nhập thể loại muốn thêm vào</span>"
+            return;
+        } else {
+            for (let i = 0; i < danhSachNhac.length; i++) {
+                if (danhSachNhac[i].name.toLowerCase() === suaNhac.toLowerCase()) {
+                    check = true;
+                    document.getElementById("validate").innerHTML = "<span style=\"color:red\">vui lòng nhập tên khác </span>"
+                }
+            }
+        }
+        if (!check) {
+            danhSachNhac[id - 1].setName(suaNhac)
+            document.getElementById("validate").innerHTML = "<span style=\"color:blue\">Success!</span>"
+        }
+
+        veDanhSachNhac();
+    }
+
+    function deleteNhac(id) {
+        for (let i = 0; i < danhSachNhac.length; i++) {
+            if (danhSachNhac[i].id === id) {
+                let xacNhan = confirm("xác nhận xóa")
+                if (xacNhan) {
+                    danhSachNhac.splice(i, 1);
+                    document.getElementById("validate").innerHTML = "<span style=\"color:red\">đã xóa thành công</span>";
+                }
+            }
+        }
+        veDanhSachNhac();
+    }
+
+    class Song {
+        constructor(id, name, lyrics) {
+            this.id = id;
+            this.name = name;
+            this.lyrics = lyrics;
+        }
+
+        setId(id) {
+            this.id = id;
+        }
+
+        getId() {
+            return this.id;
+        }
+
+        setName(name) {
+            this.name = name;
+        }
+
+        getName() {
+            return this.name;
+        }
+
+        setLyrics(lyrics) {
+            this.lyrics = lyrics;
+        }
+
+        getLyrics() {
+            return this.lyrics
+        }
+    }
+
+    function selec() {
+        let songName = document.getElementById("")
+    }
+
+</script>
+</body>
+</html>
